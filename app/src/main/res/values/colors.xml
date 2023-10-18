@@ -6,4 +6,7 @@
     <color name="light_background">#F0F0F0</color>
     <color name="dark_gray">#808080</color>
     <color name="background_color">#F5F5F5</color>
+    <color name="unfocused_hint_color">#1F1D1D</color>
+    <color name="focused_hint_color">#000000</color>
+    <color name="color_primary">#DC3D3D</color>
 </resources>

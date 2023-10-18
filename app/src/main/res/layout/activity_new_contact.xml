@@ -8,65 +8,108 @@
     android:layout_margin="16dp"
     android:orientation="vertical"
     android:background="@color/light_background"
-    tools:context=".NewContact">
+    tools:context=".NewContactActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/contact_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
 
-    <EditText
-        android:id="@+id/et_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:hint="@string/name_hint"
-        android:inputType="text"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/dark_text"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal" />
+        app:boxBackgroundColor="@color/light_background">
 
-    <EditText
-        android:id="@+id/et_phone"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_phone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:hint="@string/phone_hint"
-        android:inputType="phone"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/dark_text"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal" />
+        app:boxBackgroundColor="@color/light_background">
 
-    <EditText
-        android:id="@+id/et_email"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:hint="@string/email_hint"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/dark_text"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal" />
+        app:boxBackgroundColor="@color/light_background">
 
-    <EditText
-        android:id="@+id/et_street"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_street"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:hint="@string/street_hint"
-        android:inputType="text"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/dark_text"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal" />
+        app:boxBackgroundColor="@color/light_background">
 
-    <EditText
-        android:id="@+id/et_postal_code"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_street"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal"
+            app:boxBackgroundColor="@color/light_background"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_postal_code"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:hint="@string/postal_code_hint"
-        android:inputType="textPostalAddress"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/dark_text"
-        android:padding="8dp"
-        android:layout_gravity="center_horizontal" />
+        app:hintTextAppearance="@style/UnfocusedHint"
+        app:boxBackgroundColor="@color/light_background">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_postal_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

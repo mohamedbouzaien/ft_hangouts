@@ -3,7 +3,14 @@
     <style name="Base.Theme.Ft_hangouts" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/color_primary</item>
     </style>
 
     <style name="Theme.Ft_hangouts" parent="Base.Theme.Ft_hangouts" />
+    <style name="UnfocusedHint" parent="android:TextAppearance">
+        <item name="android:textColor">@color/unfocused_hint_color</item>
+    </style>
+    <style name="FocusedHint" parent="android:TextAppearance">
+        <item name="android:textColor">@color/focused_hint_color</item>
+    </style>
 </resources>

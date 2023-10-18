@@ -6,4 +6,6 @@
     <string name="phone_hint">Phone number</string>
     <string name="name_hint">Full name</string>
     <string name="add_contact">new Contact</string>
+    <string name="save_contact">Save</string>
+    <string name="delete_contact">Delete</string>
 </resources>

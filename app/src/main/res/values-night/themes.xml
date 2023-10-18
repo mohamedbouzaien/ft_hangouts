@@ -3,5 +3,13 @@
     <style name="Base.Theme.Ft_hangouts" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="hintTextColor">@color/black</item>
+    </style>
+    <style name="UnfocusedHint" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/unfocused_hint_color</item>
+    </style>
+    <style name="FocusedHint" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/focused_hint_color</item>
     </style>
 </resources>

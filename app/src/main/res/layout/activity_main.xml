@@ -15,16 +15,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton" />
+        app:layout_constraintBottom_toTopOf="@+id/addClientButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/addClientButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@mipmap/ic_add_button"
+        app:srcCompat="@android:drawable/ic_menu_add"
         android:contentDescription="@string/add_contact" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
