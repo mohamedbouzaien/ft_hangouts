@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ft_hangouts</string>
+    <string name="postal_code_hint">Postal code with 3 to 5 digits</string>
+    <string name="street_hint">Your streets address</string>
+    <string name="email_hint">Email</string>
+    <string name="phone_hint">Phone number</string>
+    <string name="name_hint">Full name</string>
+    <string name="add_contact">new Contact</string>
+</resources>
