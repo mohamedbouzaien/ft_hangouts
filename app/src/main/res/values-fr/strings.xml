@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ft_hangouts</string>
+    <string name="postal_code_hint">Code postal entre 4 et 5 chiffres</string>
+    <string name="street_hint">Votre addresse</string>
+    <string name="email_hint">Email</string>
+    <string name="phone_hint">numéro de téléphone</string>
+    <string name="name_hint">Nom complet</string>
+    <string name="add_contact">Nouveau contact</string>
+    <string name="save_contact">Enregistrer</string>
+    <string name="delete_contact">Supprimer</string>
+    <string name="call_contact">Appel</string>
+    <string name="text_contact">sms</string>
+    <string name="name_contact">Nom</string>
+    <string name="phone_contact">Téléphone</string>
+    <string name="search_contact">Chercher</string>
+</resources>

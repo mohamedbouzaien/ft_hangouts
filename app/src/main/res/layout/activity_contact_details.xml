@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ContactDetailsActivity">
+
+    <ImageView
+        android:id="@+id/iv_contact_details"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/color_primary"
+        android:padding="50dp"
+        android:src="@mipmap/ic_user" />
+
+    <TextView
+        android:id="@+id/tv_contact_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_contact_details"
+        android:background="@color/color_primary"
+        android:padding="8dp"
+        android:text="Name"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_contact_name"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/phone_contact"
+                android:textSize="24sp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/ib_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_call"
+                android:backgroundTint="@color/color_primary"
+                android:contentDescription="@string/call_contact" />
+
+            <ImageButton
+                android:id="@+id/ib_message"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_dialog_email"
+                android:contentDescription="@string/text_contact"
+                android:backgroundTint="@color/color_primary"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

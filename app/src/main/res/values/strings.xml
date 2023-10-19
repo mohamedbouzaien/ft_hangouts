@@ -8,4 +8,9 @@
     <string name="add_contact">new Contact</string>
     <string name="save_contact">Save</string>
     <string name="delete_contact">Delete</string>
+    <string name="call_contact">Call</string>
+    <string name="text_contact">Text</string>
+    <string name="name_contact">Name</string>
+    <string name="phone_contact">Phone</string>
+    <string name="search_contact">Search</string>
 </resources>
