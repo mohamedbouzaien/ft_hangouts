@@ -3,6 +3,8 @@ package com.mbouzaie.ft_hangouts;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
+
 public class ContactDetailsActivity extends AppCompatActivity {
 
     // creating variables for our image view and text view and string. .
-    private String contactName, contactNumber, contactEmail, contactStreet;
+    private String contactName, contactNumber, contactEmail, contactStreet, contactImage;
     private TextView contactTextView, nameTextView, emailTextView, streetTextView;
     private ImageView contactImageView;
     private ImageButton callImageButton, messageImageButton, emailImageButton, streetImageButton;
@@ -30,6 +34,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
         contactNumber = getIntent().getStringExtra("phone");
         contactEmail = getIntent().getStringExtra("email");
         contactStreet = getIntent().getStringExtra("street");
+        contactImage = getIntent().getStringExtra("image");
         nameTextView = findViewById(R.id.tv_contact_name);
         contactImageView = findViewById(R.id.iv_contact_details);
         contactTextView = findViewById(R.id.tv_phone);
@@ -43,8 +48,11 @@ public class ContactDetailsActivity extends AppCompatActivity {
         messageImageButton = findViewById(R.id.ib_message);
         emailImageButton = findViewById(R.id.ib_mail);
         streetImageButton = findViewById(R.id.ib_street);
+        if (!contactImage.isEmpty()) {
+            Bitmap savedImage = BitmapFactory.decodeFile(new File(getFilesDir(), contactImage).getAbsolutePath());
 
-
+            contactImageView.setImageBitmap(savedImage);
+        }
         callImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

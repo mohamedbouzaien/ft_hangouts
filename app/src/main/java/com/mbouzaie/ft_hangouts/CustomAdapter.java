@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
@@ -29,7 +33,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             contactsPhones,
             contactsEmails,
             contactsStreets,
-            contactsPostalCodes;
+            contactsPostalCodes,
+            contactsImages;
 
     CustomAdapter(Activity activity,
                   Context context,
@@ -38,7 +43,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                   ArrayList<String> contactsPhones,
                   ArrayList<String> contactsEmails,
                   ArrayList<String> contactsStreets,
-                  ArrayList<String> contactsPostalCodes) {
+                  ArrayList<String> contactsPostalCodes,
+                  ArrayList<String> contactsImages) {
         this.activity = activity;
         this.context = context;
         this.contactsIds = contactsIds;
@@ -47,6 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.contactsEmails = contactsEmails;
         this.contactsStreets = contactsStreets;
         this.contactsPostalCodes = contactsPostalCodes;
+        this.contactsImages = contactsImages;
     }
 
     @NonNull
@@ -60,6 +67,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, final int position) {
         holder.name.setText(String.valueOf(contactsNames.get(position)));
+        if (!contactsImages.get(position).isEmpty()) {
+            Bitmap savedImage = BitmapFactory.decodeFile(new File(context.getFilesDir(), contactsImages.get(position)).getAbsolutePath());
+
+            holder.image.setImageBitmap(savedImage);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             int p = position;
             @Override
@@ -71,6 +83,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("email", String.valueOf(contactsEmails.get(p)));
                 intent.putExtra("street", String.valueOf(contactsStreets.get(p)));
                 intent.putExtra("postal_code", String.valueOf(contactsPostalCodes.get(p)));
+                intent.putExtra("image", String.valueOf(contactsImages.get(p)));
                 context.startActivity(intent);
             }
         });
@@ -93,13 +106,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                            ArrayList<String> filteredPhones,
                            ArrayList<String> filteredEmails,
                            ArrayList<String> filteredStreets,
-                           ArrayList<String> filteredPostalCodes) {
+                           ArrayList<String> filteredPostalCodes,
+                           ArrayList<String> filteredImages) {
         contactsNames = filteredNames;
         contactsIds = filteredIds;
         contactsPhones = filteredPhones;
         contactsEmails = filteredEmails;
         contactsStreets = filteredStreets;
         contactsPostalCodes = filteredPostalCodes;
+        contactsImages = filteredImages;
         notifyDataSetChanged();
     }
 
@@ -133,12 +148,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         TextView name;
         ImageButton call, message;
+        ImageView image;
         // list of contacts created Adapter
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.et_name);
             message = itemView.findViewById(R.id.message);
             call = itemView.findViewById(R.id.call);
+            image = itemView.findViewById(R.id.iv_contact);
         }
     }
 }

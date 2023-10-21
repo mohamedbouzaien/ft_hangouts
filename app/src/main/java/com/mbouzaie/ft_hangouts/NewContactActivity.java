@@ -1,6 +1,11 @@
 package com.mbouzaie.ft_hangouts;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -15,13 +20,29 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+
 public class NewContactActivity extends AppCompatActivity {
+
+    private static final int RESULT_LOAD_IMG = 1;
     TextInputLayout nameInputLayout, phoneInputLayout, emailInputLayout, streetInputLayout, postalCodeInputLayout;
     EditText nameEditText, phoneEditText, emailEdittext, streetEditText, postalCodeEditText;
+
+    ImageButton chooseImageButton;
+    ImageView profileImageView;
     DatabaseHelper databaseHelper;
+    Boolean imageUploaded = false;
     private void findViews() {
         nameInputLayout = findViewById(R.id.til_name);
         nameEditText = findViewById(R.id.et_name);
@@ -33,6 +54,16 @@ public class NewContactActivity extends AppCompatActivity {
         streetEditText = findViewById(R.id.et_street);
         postalCodeInputLayout = findViewById(R.id.til_postal_code);
         postalCodeEditText = findViewById(R.id.et_postal_code);
+        profileImageView = findViewById(R.id.iv_profile_image);
+        chooseImageButton = findViewById(R.id.ib_choose_image);
+        chooseImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+            }
+        });
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,14 +88,45 @@ public class NewContactActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        String filename = "";
         if (id == R.id.save_contact) {
             if (inputControl()) {
+                if (imageUploaded == true) {
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) profileImageView.getDrawable();
+                    Bitmap imageBitmap = bitmapDrawable.getBitmap();
+
+    // Save the Bitmap to a local file
+                    filename = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date())+ ".png";
+                    FileOutputStream outStream = null;
+                    try {
+                        File file = new File(getFilesDir(), filename);
+                        outStream = new FileOutputStream(file);
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream); // Compress and save as PNG
+                        outStream.flush();
+                        outStream.close();
+
+                        // Inform the user that the image has been saved
+                        Toast.makeText(this, "Image saved to local storage" + filename, Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // Handle any errors that may occur during the save process
+                    } finally {
+                        try {
+                            if (outStream != null) {
+                                outStream.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 Contact contact = new Contact(
                         nameEditText.getText().toString(),
                         phoneEditText.getText().toString(),
                         emailEdittext.getText().toString(),
                         streetEditText.getText().toString(),
-                        postalCodeEditText.getText().toString());
+                        postalCodeEditText.getText().toString(),
+                        filename);
                 databaseHelper.createContact(contact);
             }
             return true;
@@ -73,6 +135,58 @@ public class NewContactActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+
+        if (reqCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                InputStream imageStream = getContentResolver().openInputStream(imageUri);
+
+                // Decode the image dimensions without loading the full bitmap into memory
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(imageStream, null, options);
+
+                // Calculate inSampleSize to resize the image
+                options.inSampleSize = calculateInSampleSize(options, 200, 200);
+
+                // Decode the image with the calculated sample size
+                options.inJustDecodeBounds = false;
+                imageStream = getContentResolver().openInputStream(imageUri);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream, null, options);
+
+                profileImageView.setImageBitmap(selectedImage);
+                imageUploaded = true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int imageHeight = options.outHeight;
+        final int imageWidth = options.outWidth;
+        int inSampleSize = 1;
+
+        if (imageHeight > reqHeight || imageWidth > reqWidth) {
+            final int halfHeight = imageHeight / 2;
+            final int halfWidth = imageWidth / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

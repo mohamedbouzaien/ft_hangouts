@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseHelper databaseHelper;
-    ArrayList<String> contactsIds, contactsNames, contactsPhones, contactsEmails, contactsStreets, contactsPostalCodes;
+    ArrayList<String> contactsIds, contactsNames, contactsPhones, contactsEmails, contactsStreets, contactsPostalCodes, contactsImages;
     CustomAdapter customAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         contactsEmails = new ArrayList<>();
         contactsStreets = new ArrayList<>();
         contactsPostalCodes = new ArrayList<>();
+        contactsImages = new ArrayList<>();
 
 
         customAdapter = new CustomAdapter(this,this,
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 contactsPhones,
                 contactsEmails,
                 contactsStreets,
-                contactsPostalCodes);
+                contactsPostalCodes,
+                contactsImages);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         button.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> filteredEmails = new ArrayList<>();
         ArrayList<String> filteredStreets = new ArrayList<>();
         ArrayList<String> filteredPostalCodes = new ArrayList<>();
+        ArrayList<String> filteredImages = new ArrayList<>();
         for (int i = 0; i < contactsNames.size(); i++) {
             if (contactsNames.get(i).toLowerCase().contains(text.toLowerCase())) {
                 filteredNames.add(contactsNames.get(i));
@@ -112,12 +115,13 @@ public class MainActivity extends AppCompatActivity {
                 filteredEmails.add(contactsEmails.get(i));
                 filteredStreets.add(contactsStreets.get(i));
                 filteredPostalCodes.add(contactsPostalCodes.get(i));
+                filteredImages.add(contactsImages.get(i));
             }
         }
         if (filteredNames.isEmpty()) {
             Toast.makeText(this, "No Contact Found", Toast.LENGTH_SHORT).show();
         }
-        customAdapter.filterList(filteredNames, filteredIds, filteredPhones, filteredEmails, filteredStreets, filteredPostalCodes);
+        customAdapter.filterList(filteredNames, filteredIds, filteredPhones, filteredEmails, filteredStreets, filteredPostalCodes, filteredImages);
     }
 
     void getContacts() {
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         contactsEmails.clear();
         contactsStreets.clear();
         contactsPostalCodes.clear();
+        contactsImages.clear();
 
         if (cursor.getCount() == 0)
             Log.v(this.getClass().getName(), "No Contacts");
@@ -139,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 contactsEmails.add(cursor.getString(3));
                 contactsStreets.add(cursor.getString(4));
                 contactsPostalCodes.add(cursor.getString(5));
+                contactsImages.add(cursor.getString(6));
             }
         }
     }

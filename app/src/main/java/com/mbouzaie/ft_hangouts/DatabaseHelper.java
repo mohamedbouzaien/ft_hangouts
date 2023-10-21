@@ -23,7 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "phone TEXT," +
                 "email TEXT," +
                 "street TEXT," +
-                "postal_code TEXT);");
+                "postal_code TEXT," +
+                "image_name TEXT);");
     }
 
     @Override
@@ -41,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("email", contact.getEmail());
         contentValues.put("street", contact.getStreet());
         contentValues.put("postal_code", contact.getPostalCode());
+        contentValues.put("image_name", contact.getImageName());
         long result = sqLiteDatabase.insert("contacts", null, contentValues);
         if (result == -1)
             Log.v(this.getClass().getName(), "Failed to add contact");
@@ -64,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("email", contact.getEmail());
         contentValues.put("street", contact.getStreet());
         contentValues.put("postal_code", contact.getPostalCode());
+        contentValues.put("image_name", contact.getImageName());
         Log.v("CV : ", contentValues.toString());
         long res = sqLiteDatabase.update("contacts", contentValues, "_id=?", new String[]{String.valueOf(contact.getId())});
         if (res == -1)

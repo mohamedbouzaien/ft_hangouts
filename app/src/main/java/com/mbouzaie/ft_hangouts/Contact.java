@@ -7,23 +7,26 @@ public class Contact {
     private String email;
     private String street;
     private String postalCode;
+    private String imageName;
 
 
-    public Contact(String fullName, String phone, String email, String street, String postalCode) {
+    public Contact(String fullName, String phone, String email, String street, String postalCode, String imageName) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
         this.street = street;
         this.postalCode = postalCode;
+        this.imageName = imageName;
     }
-    public Contact(int id, String fullName, String phone, String email, String street, String postalCode) {
+    public Contact(int id, String fullName, String phone, String email, String street, String postalCode, String imageName) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
         this.street = street;
         this.postalCode = postalCode;
+        this.imageName = imageName;
     }
 
     public int getId() {
@@ -72,5 +75,12 @@ public class Contact {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }
