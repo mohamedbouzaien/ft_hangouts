@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ft_hangouts</string>
-    <string name="postal_code_hint">Code postal entre 4 et 5 chiffres</string>
+    <string name="postal_code_hint">Code postal entre 5 chiffres</string>
     <string name="street_hint">Votre addresse</string>
     <string name="email_hint">Email</string>
     <string name="phone_hint">numéro de téléphone</string>

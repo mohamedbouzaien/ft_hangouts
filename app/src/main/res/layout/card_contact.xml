@@ -41,9 +41,9 @@
 
             <ImageButton
                 android:id="@+id/call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_call"
+                android:layout_width="57dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_call_button"
                 android:layout_marginTop="12dp"
                 android:backgroundTint="@color/color_primary"
                 android:contentDescription="@string/call_contact" />
@@ -53,9 +53,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_dialog_email"
+                android:layout_width="57dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_message_button"
                 android:contentDescription="@string/text_contact"
                 android:backgroundTint="@color/color_primary"/>
 

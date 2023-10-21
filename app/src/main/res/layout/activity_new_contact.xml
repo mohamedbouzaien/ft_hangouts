@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/name_hint"
+        android:hint=" "
         app:boxBackgroundColor="@color/light_background">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -54,6 +54,7 @@
             android:inputType="text"
             android:textColor="@color/dark_text"
             android:padding="8dp"
+            android:hint="@string/name_hint"
             android:layout_gravity="center_horizontal" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/phone_hint"
+        android:hint=" "
         app:boxBackgroundColor="@color/light_background">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -73,6 +74,7 @@
             android:inputType="text"
             android:textColor="@color/dark_text"
             android:padding="8dp"
+            android:hint="@string/phone_hint"
             android:layout_gravity="center_horizontal" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/email_hint"
+        android:hint=" "
         app:boxBackgroundColor="@color/light_background">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -92,6 +94,7 @@
             android:inputType="text"
             android:textColor="@color/dark_text"
             android:padding="8dp"
+            android:hint="@string/email_hint"
             android:layout_gravity="center_horizontal" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/street_hint"
+        android:hint=" "
         app:boxBackgroundColor="@color/light_background">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -111,6 +114,7 @@
             android:inputType="text"
             android:textColor="@color/dark_text"
             android:padding="8dp"
+            android:hint="@string/street_hint"
             android:layout_gravity="center_horizontal"
             app:boxBackgroundColor="@color/light_background"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -121,8 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/postal_code_hint"
-        app:hintTextAppearance="@style/UnfocusedHint"
+        android:hint=" "
         app:boxBackgroundColor="@color/light_background">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -132,6 +135,7 @@
             android:inputType="text"
             android:textColor="@color/dark_text"
             android:padding="8dp"
+            android:hint="@string/postal_code_hint"
             android:layout_gravity="center_horizontal" />
     </com.google.android.material.textfield.TextInputLayout>
 

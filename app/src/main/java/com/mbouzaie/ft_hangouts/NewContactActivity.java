@@ -32,6 +32,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewContactActivity extends AppCompatActivity {
 
@@ -104,12 +106,8 @@ public class NewContactActivity extends AppCompatActivity {
                         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream); // Compress and save as PNG
                         outStream.flush();
                         outStream.close();
-
-                        // Inform the user that the image has been saved
-                        Toast.makeText(this, "Image saved to local storage" + filename, Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        // Handle any errors that may occur during the save process
                     } finally {
                         try {
                             if (outStream != null) {
@@ -128,6 +126,10 @@ public class NewContactActivity extends AppCompatActivity {
                         postalCodeEditText.getText().toString(),
                         filename);
                 databaseHelper.createContact(contact);
+                Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
             return true;
         } else if (id == R.id.delete_contact) {// Handle the "Delete Contact" action
@@ -199,6 +201,15 @@ public class NewContactActivity extends AppCompatActivity {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    private boolean isPostalCodeValid(String postalCode) {
+        String regexPattern = "\\d{5}"; // Matches 5 digits
+        Pattern pattern = Pattern.compile(regexPattern);
+
+        Matcher matcher = pattern.matcher(postalCode);
+
+        return matcher.matches();
+    }
+
     private boolean inputControl() {
         boolean control = true;
         if (nameEditText.getText().length() < 3 || nameEditText.getText().length() > 20) {
@@ -213,11 +224,17 @@ public class NewContactActivity extends AppCompatActivity {
         } else {
             phoneInputLayout.setError(null);
         }
-        if (!isEmailValid(emailEdittext.getText().toString())) {
-            emailInputLayout.setError("Phone number isn't valid");
+        if (!emailEdittext.getText().toString().isEmpty() && !isEmailValid(emailEdittext.getText().toString())) {
+            emailInputLayout.setError("Email isn't valid");
             control = false;
         } else {
             emailInputLayout.setError(null);
+        }
+        if (!postalCodeEditText.getText().toString().isEmpty() && !isPostalCodeValid(postalCodeEditText.getText().toString())) {
+            postalCodeEditText.setError("Postal code isn't valid");
+            control = false;
+        } else {
+            postalCodeEditText.setError(null);
         }
         return control;
     }
