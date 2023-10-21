@@ -12,73 +12,82 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class ContactDetailsActivity extends AppCompatActivity {
 
     // creating variables for our image view and text view and string. .
-    private String contactName, contactNumber;
-    private TextView contactTV, nameTV;
-    private ImageView contactIV;
-    private ImageButton callIB, messageIB;
+    private String contactName, contactNumber, contactEmail, contactStreet;
+    private TextView contactTextView, nameTextView, emailTextView, streetTextView;
+    private ImageView contactImageView;
+    private ImageButton callImageButton, messageImageButton, emailImageButton, streetImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
-
-        // on below line we are getting data which 
-        // we passed in our adapter class with intent.
         contactName = getIntent().getStringExtra("name");
         contactNumber = getIntent().getStringExtra("phone");
+        contactEmail = getIntent().getStringExtra("email");
+        contactStreet = getIntent().getStringExtra("street");
+        nameTextView = findViewById(R.id.tv_contact_name);
+        contactImageView = findViewById(R.id.iv_contact_details);
+        contactTextView = findViewById(R.id.tv_phone);
+        emailTextView = findViewById(R.id.tv_mail);
+        streetTextView = findViewById(R.id.tv_street);
+        nameTextView.setText(contactName);
+        contactTextView.setText(contactNumber);
+        emailTextView.setText(contactEmail);
+        streetTextView.setText(contactStreet);
+        callImageButton = findViewById(R.id.ib_call);
+        messageImageButton = findViewById(R.id.ib_message);
+        emailImageButton = findViewById(R.id.ib_mail);
+        streetImageButton = findViewById(R.id.ib_street);
 
-        // initializing our views.
-        nameTV = findViewById(R.id.tv_contact_name);
-        contactIV = findViewById(R.id.iv_contact_details);
-        contactTV = findViewById(R.id.tv_phone);
-        nameTV.setText(contactName);
-        contactTV.setText(contactNumber);
-        callIB = findViewById(R.id.ib_call);
-        //messageIB = findViewById(R.id.ib_message);
 
-        // on below line adding click listener for our calling image view.
-        callIB.setOnClickListener(new View.OnClickListener() {
+        callImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calling a method to make a call.
-                makeCall(contactNumber);
+                call(contactNumber);
             }
         });
 
-        // on below line adding on click listener for our message image view.
-//        messageIB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // calling a method to send message
-//                sendMessage(contactNumber);
-//            }
-//        });
-    }
+        messageImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sms(contactNumber);
+            }
+        });
 
-    private void sendMessage(String contactNumber) {
-        // in this method we are calling an intent to send sms.
-        // on below line we are passing our contact number.
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + contactNumber));
-        intent.putExtra("sms_body", "Enter your messaage");
+        emailImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email(contactEmail);
+            }
+        });
+    }
+    public void sms(String contactNumber) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + contactNumber));
+        intent.putExtra("sms_body", "");
         startActivity(intent);
     }
 
-    private void makeCall(String contactNumber) {
-        // this method is called for making a call.
-        // on below line we are calling an intent to make a call.
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        // on below line we are setting data to it.
-        callIntent.setData(Uri.parse("tel:" + contactNumber));
-        // on below line we are checking if the calling permissions are granted not.
-        if (ActivityCompat.checkSelfPermission(ContactDetailsActivity.this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+    public void call(String contactNumber) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactNumber));
+        final int REQUEST_PHONE_CALL = 1;
+
+        if (ContextCompat.checkSelfPermission(ContactDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
         }
-        // at last we are starting activity.
-        startActivity(callIntent);
+        else
+        {
+            startActivity(intent);
+        }
+    }
+
+    public void email(String contactEmail) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", contactEmail, null));
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }
