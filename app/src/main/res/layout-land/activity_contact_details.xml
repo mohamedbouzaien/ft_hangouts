@@ -116,6 +116,36 @@
                         android:contentDescription="@string/email_contact" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_street"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/email_contact"
+                        android:textSize="18sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/ib_street"
+                        android:layout_width="57dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@mipmap/ic_map_button"
+                        android:backgroundTint="@color/color_primary"
+                        android:contentDescription="@string/email_contact" />
+
+                </LinearLayout>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
