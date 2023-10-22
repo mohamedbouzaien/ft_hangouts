@@ -2,11 +2,13 @@ package com.mbouzaie.ft_hangouts;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Menu;
@@ -38,6 +40,8 @@ import java.util.regex.Pattern;
 public class NewContactActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMG = 1;
+
+    String contactId = "";
     TextInputLayout nameInputLayout, phoneInputLayout, emailInputLayout, streetInputLayout, postalCodeInputLayout;
     EditText nameEditText, phoneEditText, emailEdittext, streetEditText, postalCodeEditText;
 
@@ -69,21 +73,26 @@ public class NewContactActivity extends AppCompatActivity {
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        int selectedTheme = loadThemeFromPreferences();
+        // Set the selected theme.
+        setTheme(selectedTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
         findViews();
         Toolbar toolbar = findViewById(R.id.contact_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("New Contact");
         databaseHelper = new DatabaseHelper(this);
+        getIntentData();
+        if (contactId.isEmpty())
+            getSupportActionBar().setTitle(getResources().getString(R.string.activity_new_contact));
+        else
+            getSupportActionBar().setTitle(getResources().getString(R.string.activity_update_contact));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.contact_menu, menu);
-        //if (!TextUtils.isEmpty(id))
-            menu.findItem(R.id.delete_contact).setVisible(true);
         return true;
     }
 
@@ -118,6 +127,28 @@ public class NewContactActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if (!contactId.isEmpty()) {
+                    Contact contact = new Contact(
+                            contactId,
+                            nameEditText.getText().toString(),
+                            phoneEditText.getText().toString(),
+                            emailEdittext.getText().toString(),
+                            streetEditText.getText().toString(),
+                            postalCodeEditText.getText().toString(),
+                            filename);
+                    databaseHelper.updateContact(contact);
+                    Intent intent = new Intent(this, ContactDetailsActivity.class);
+                    intent.putExtra("id", String.valueOf(contact.getId()));
+                    intent.putExtra("name", String.valueOf(contact.getFullName()));
+                    intent.putExtra("phone", String.valueOf(contact.getPhone()));
+                    intent.putExtra("email", String.valueOf(contact.getEmail()));
+                    intent.putExtra("street", String.valueOf(contact.getStreet()));
+                    intent.putExtra("postal_code", String.valueOf(contact.getPostalCode()));
+                    intent.putExtra("image", String.valueOf(contact.getImageName()));
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
                 Contact contact = new Contact(
                         nameEditText.getText().toString(),
                         phoneEditText.getText().toString(),
@@ -126,14 +157,11 @@ public class NewContactActivity extends AppCompatActivity {
                         postalCodeEditText.getText().toString(),
                         filename);
                 databaseHelper.createContact(contact);
-                Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-            return true;
-        } else if (id == R.id.delete_contact) {// Handle the "Delete Contact" action
-            // Add your code here
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -166,11 +194,11 @@ public class NewContactActivity extends AppCompatActivity {
                 imageUploaded = true;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             }
 
         }else {
-            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_no_image),Toast.LENGTH_LONG).show();
         }
     }
 
@@ -192,17 +220,15 @@ public class NewContactActivity extends AppCompatActivity {
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {
-        // Use the Patterns class to check if the input matches a phone number pattern
         return Patterns.PHONE.matcher(phoneNumber).matches();
     }
 
     private boolean isEmailValid(String email) {
-        // Use the Patterns class to check if the input matches a phone number pattern
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPostalCodeValid(String postalCode) {
-        String regexPattern = "\\d{5}"; // Matches 5 digits
+        String regexPattern = "\\d{5}";
         Pattern pattern = Pattern.compile(regexPattern);
 
         Matcher matcher = pattern.matcher(postalCode);
@@ -213,29 +239,54 @@ public class NewContactActivity extends AppCompatActivity {
     private boolean inputControl() {
         boolean control = true;
         if (nameEditText.getText().length() < 3 || nameEditText.getText().length() > 20) {
-            nameInputLayout.setError("full name is mandatory and must be between 3 and 20 characters");
+            nameInputLayout.setError(getResources().getString(R.string.error_name));
             control = false;
         } else {
             nameInputLayout.setError(null);
         }
         if (!isPhoneNumberValid(phoneEditText.getText().toString())) {
-            phoneInputLayout.setError("Phone number isn't valid");
+            phoneInputLayout.setError(getResources().getString(R.string.error_phone));
             control = false;
         } else {
             phoneInputLayout.setError(null);
         }
         if (!emailEdittext.getText().toString().isEmpty() && !isEmailValid(emailEdittext.getText().toString())) {
-            emailInputLayout.setError("Email isn't valid");
+            emailInputLayout.setError(getResources().getString(R.string.error_mail));
             control = false;
         } else {
             emailInputLayout.setError(null);
         }
         if (!postalCodeEditText.getText().toString().isEmpty() && !isPostalCodeValid(postalCodeEditText.getText().toString())) {
-            postalCodeEditText.setError("Postal code isn't valid");
+            postalCodeInputLayout.setError(getResources().getString(R.string.error_postal));
             control = false;
         } else {
             postalCodeEditText.setError(null);
         }
         return control;
     }
+
+    void getIntentData() {
+        if (getIntent().hasExtra("id") && getIntent().hasExtra("name")
+                && getIntent().hasExtra("phone") && getIntent().hasExtra("email") && getIntent().hasExtra("street") && getIntent().hasExtra("postal_code")) {
+            contactId = getIntent().getStringExtra("id");
+            nameEditText.setText(getIntent().getStringExtra("name"));
+            phoneEditText.setText(getIntent().getStringExtra("phone"));
+            emailEdittext.setText(getIntent().getStringExtra("email"));
+            streetEditText.setText(getIntent().getStringExtra("street"));
+            postalCodeEditText.setText(getIntent().getStringExtra("postal_code"));
+            if (getIntent().hasExtra("image") ) {
+                String contactImage = getIntent().getStringExtra("image");
+                if (contactImage != null && !contactImage.isEmpty()) {
+                    Bitmap savedImage = BitmapFactory.decodeFile(new File(getFilesDir(), contactImage).getAbsolutePath());
+                    profileImageView.setImageBitmap(savedImage);
+                }
+            }
+        }
+    }
+    private int loadThemeFromPreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int defaultTheme = R.style.Theme_Ft_hangouts;
+        return preferences.getInt("selected_theme", defaultTheme);
+    }
+
 }

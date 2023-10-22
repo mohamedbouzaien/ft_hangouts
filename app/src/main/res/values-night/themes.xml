@@ -1,15 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Ft_hangouts" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="hintTextColor">@color/black</item>
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-    <style name="UnfocusedHint" parent="TextAppearance.Design.Hint">
-        <item name="android:textColor">@color/unfocused_hint_color</item>
+
+    <style name="Theme.Ft_hangouts" parent="Base.Theme.Ft_hangouts">
+        <item name="colorPrimary">@color/red_primary</item>
     </style>
-    <style name="FocusedHint" parent="TextAppearance.Design.Hint">
-        <item name="android:textColor">@color/focused_hint_color</item>
+    <style name="Theme.Ft_hangouts.Green">
+        <item name="colorPrimary">@color/green_primary</item>
+        <!-- Other attributes -->
+    </style>
+
+    <style name="Theme.Ft_hangouts.Blue">
+        <item name="colorPrimary">@color/blue_primary</item>
+        <!-- Other attributes -->
+    </style>
+    <style name="Theme.Ft_hangouts.Red">
+        <item name="colorPrimary">@color/red_primary</item>
+        <!-- Other attributes -->
     </style>
 </resources>

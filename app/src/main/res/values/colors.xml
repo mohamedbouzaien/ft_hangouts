@@ -8,5 +8,7 @@
     <color name="background_color">#F5F5F5</color>
     <color name="unfocused_hint_color">#1F1D1D</color>
     <color name="focused_hint_color">#000000</color>
-    <color name="color_primary">#DC3D3D</color>
+    <color name="red_primary">#DC3D3D</color>
+    <color name="blue_primary">#2196F3</color>
+    <color name="green_primary">#4CAF50</color>
 </resources>

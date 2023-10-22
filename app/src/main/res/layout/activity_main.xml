@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_add"
-        app:backgroundTint="@color/color_primary"
+        app:backgroundTint="?attr/colorPrimary"
         android:contentDescription="@string/add_contact" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

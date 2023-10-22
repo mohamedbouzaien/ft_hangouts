@@ -18,4 +18,25 @@
     <string name="address_contact">Addresse</string>
     <string name="postal_code_contact">Code Postal</string>
     <string name="image_upload_desc">Uploade une Image</string>
+    <string name="edit_desc">Editer</string>
+    <string name="delete_desc">Supprimer</string>
+    <string name="delete_dialog_title">Supprimer Contact</string>
+    <string name="delete_dialog_description">"Etes vous sur de supprimer ce contact?"</string>
+    <string name="delete_dialog_yes">Oui</string>
+    <string name="delete_dialog_no">Non</string>
+    <string name="toast_contact_deleted">"Contact supprimé"</string>
+    <string name="toast_not_found">"Pas de contacts trouvé"</string>
+    <string name="toast_saved">Contact Sauvegardé</string>
+    <string name="toast_error">veuillez réessayer ultérieurement</string>
+    <string name="toast_no_image">Vous n\'avez pas choisi d\'image</string>
+    <string name="intent_email_title">Envoyer email…</string>
+    <string name="activity_new_contact">Nouveau Contact</string>
+    <string name="activity_update_contact">Modifier Contact</string>
+    <string name="error_name">Le nom est obligatoire est doit être entre 3 et 20 caractères</string>
+    <string name="error_phone">Numéro de téléphone invalide</string>
+    <string name="error_mail">Email invalide</string>
+    <string name="error_postal">Code postal invalide</string>
+    <string name="change_color">Changer couleur</string>
+    <string name="dialog_cancel">Annuler</string>
+    <string name="toast_last_visit">Application en background depuis</string>
 </resources>

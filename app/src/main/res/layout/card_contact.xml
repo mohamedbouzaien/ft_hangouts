@@ -45,7 +45,7 @@
                 android:layout_height="50dp"
                 android:src="@mipmap/ic_call_button"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/color_primary"
+                android:backgroundTint="?attr/colorPrimary"
                 android:contentDescription="@string/call_contact" />
 
             <ImageButton
@@ -57,7 +57,7 @@
                 android:layout_height="50dp"
                 android:src="@mipmap/ic_message_button"
                 android:contentDescription="@string/text_contact"
-                android:backgroundTint="@color/color_primary"/>
+                android:backgroundTint="?attr/colorPrimary"/>
 
         </LinearLayout>
 

@@ -6,10 +6,4 @@
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/save_contact"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/delete_contact"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="@string/delete_contact"
-        android:visible="false"
-        app:showAsAction="always" />
 </menu>

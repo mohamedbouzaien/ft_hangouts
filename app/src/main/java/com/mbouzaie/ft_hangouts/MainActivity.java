@@ -6,28 +6,43 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
+import com.mbouzaie.ft_hangouts.App;
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseHelper databaseHelper;
     ArrayList<String> contactsIds, contactsNames, contactsPhones, contactsEmails, contactsStreets, contactsPostalCodes, contactsImages;
     CustomAdapter customAdapter;
+    String pauseDate = "";
+    boolean isAppInBackground = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int selectedTheme = loadThemeFromPreferences();
+        // Set the selected theme.
+        setTheme(selectedTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -64,39 +79,117 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        long time = System.currentTimeMillis();
+        editor.putLong("pref_last_visit", time);
+        editor.apply();
+
+        ((App) this.getApplication()).startActivityTransitionTimer();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         getContacts();
         customAdapter.notifyDataSetChanged();
+        App app = (App) this.getApplication();
+        if (app.wasInBackground) {
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            long time = sharedPref.getLong("pref_last_visit", System.currentTimeMillis());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss", Locale.US);
+            Date date = new Date(time);
+            String resDate = formatter.format(date);
+            String message = getString(R.string.toast_last_visit) + ": " + resDate;
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
+
+        app.stopActivityTransitionTimer();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-        // on below line we are getting our menu item as search view item
         MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
-        // on below line we are creating a variable for our search view.
         final SearchView searchView = (SearchView) searchViewItem.getActionView();
-        // on below line we are setting on query text listener for our search view.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // on query submit we are clearing the focus for our search view.
                 searchView.clearFocus();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // on changing the text in our search view we are calling
-                // a filter method to filter our array list.
                 filter(newText.toLowerCase());
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (R.id.pick_color == id) {
+            showColorSelectionDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showColorSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.color_selection_dialog, null);
+        builder.setView(dialogView);
+
+        final RadioGroup colorRadioGroup = dialogView.findViewById(R.id.color_radio_group);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int selectedColorId = colorRadioGroup.getCheckedRadioButtonId();
+                if (selectedColorId == R.id.red_option) {
+                    setAppTheme(R.style.Theme_Ft_hangouts_Red);
+                    recreate();
+                }
+                else if (selectedColorId == R.id.green_option) {
+                    setAppTheme(R.style.Theme_Ft_hangouts_Green);
+                    recreate();
+                } else if (selectedColorId == R.id.blue_option) {
+                    setAppTheme(R.style.Theme_Ft_hangouts_Blue);
+                    recreate();
+                }
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        builder.create().show();
+    }
+    private void setAppTheme(int themeId) {
+        saveThemeToPreferences(themeId);
+        setTheme(themeId);
+        recreate();
+    }
+    private int loadThemeFromPreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int defaultTheme = R.style.Theme_Ft_hangouts;
+        return preferences.getInt("selected_theme", defaultTheme);
+    }
+    private void saveThemeToPreferences(int themeId) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("selected_theme", themeId);
+        editor.apply();
     }
 
     private void filter(String text) {
@@ -119,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (filteredNames.isEmpty()) {
-            Toast.makeText(this, "No Contact Found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.toast_not_found), Toast.LENGTH_SHORT).show();
         }
         customAdapter.filterList(filteredNames, filteredIds, filteredPhones, filteredEmails, filteredStreets, filteredPostalCodes, filteredImages);
     }

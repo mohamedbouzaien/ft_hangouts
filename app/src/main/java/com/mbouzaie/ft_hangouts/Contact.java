@@ -1,7 +1,7 @@
 package com.mbouzaie.ft_hangouts;
 
 public class Contact {
-    private int id;
+    private String id;
     private String fullName;
     private String phone;
     private String email;
@@ -19,7 +19,7 @@ public class Contact {
         this.postalCode = postalCode;
         this.imageName = imageName;
     }
-    public Contact(int id, String fullName, String phone, String email, String street, String postalCode, String imageName) {
+    public Contact(String id, String fullName, String phone, String email, String street, String postalCode, String imageName) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
@@ -29,11 +29,11 @@ public class Contact {
         this.imageName = imageName;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

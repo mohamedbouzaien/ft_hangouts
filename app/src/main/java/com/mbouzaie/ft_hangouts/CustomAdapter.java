@@ -72,6 +72,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
             holder.image.setImageBitmap(savedImage);
         }
+        else {
+            holder.image.setImageResource(R.mipmap.ic_user);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             int p = position;
             @Override

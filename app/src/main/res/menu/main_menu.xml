@@ -7,5 +7,9 @@
         android:title="@string/search_contact"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|withText" />
-
+    <item
+        android:id="@+id/pick_color"
+        android:icon="@mipmap/ic_change_color"
+        android:title="@string/save_contact"
+        app:showAsAction="always" />
 </menu>

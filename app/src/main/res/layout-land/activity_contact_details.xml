@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -22,21 +22,39 @@
                 android:id="@+id/iv_contact_details"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:background="@color/color_primary"
+                android:background="?attr/colorPrimary"
                 android:padding="50dp"
                 android:src="@mipmap/ic_user" />
 
+            <ImageButton
+                android:id="@+id/ib_edit"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="top|start"
+                android:contentDescription="@string/edit_desc"
+                android:src="@android:drawable/ic_menu_edit"
+                android:background="?attr/colorPrimary"/>
+            <ImageButton
+                android:id="@+id/ib_delete"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="70dp"
+                android:layout_gravity="top|start"
+                android:src="@android:drawable/ic_menu_delete"
+                android:contentDescription="@string/delete_contact"
+                android:background="?attr/colorPrimary"/>
             <TextView
                 android:id="@+id/tv_contact_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_primary"
-                android:padding="8dp"
-                android:text="Name"
+                android:background="?attr/colorPrimary"
+                android:layout_gravity="bottom|end"
+                android:padding="9dp"
+                android:text="@string/name_contact"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-        </LinearLayout>
+        </FrameLayout>
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -73,7 +91,7 @@
                         android:layout_width="57dp"
                         android:layout_height="50dp"
                         android:src="@mipmap/ic_call_button"
-                        android:backgroundTint="@color/color_primary"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:contentDescription="@string/call_contact" />
 
                     <ImageButton
@@ -84,7 +102,7 @@
                         android:layout_height="50dp"
                         android:src="@mipmap/ic_message_button"
                         android:contentDescription="@string/text_contact"
-                        android:backgroundTint="@color/color_primary"/>
+                        android:backgroundTint="?attr/colorPrimary"/>
 
                 </LinearLayout>
 
@@ -113,7 +131,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="8dp"
                         android:src="@mipmap/ic_email_button"
-                        android:backgroundTint="@color/color_primary"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:contentDescription="@string/email_contact" />
 
                 </LinearLayout>
@@ -156,7 +174,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="8dp"
                         android:src="@mipmap/ic_map_button"
-                        android:backgroundTint="@color/color_primary"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:contentDescription="@string/email_contact" />
 
                 </LinearLayout>
