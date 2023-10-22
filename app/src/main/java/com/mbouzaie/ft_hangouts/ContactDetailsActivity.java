@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,8 +22,8 @@ import java.io.File;
 public class ContactDetailsActivity extends AppCompatActivity {
 
     // creating variables for our image view and text view and string. .
-    private String contactName, contactNumber, contactEmail, contactStreet, contactImage;
-    private TextView contactTextView, nameTextView, emailTextView, streetTextView;
+    private String contactName, contactNumber, contactEmail, contactStreet, contactPostalCode, contactImage;
+    private TextView contactTextView, nameTextView, emailTextView, streetTextView, postalCodeTextView;
     private ImageView contactImageView;
     private ImageButton callImageButton, messageImageButton, emailImageButton, streetImageButton;
 
@@ -34,16 +35,19 @@ public class ContactDetailsActivity extends AppCompatActivity {
         contactNumber = getIntent().getStringExtra("phone");
         contactEmail = getIntent().getStringExtra("email");
         contactStreet = getIntent().getStringExtra("street");
+        contactPostalCode = getIntent().getStringExtra("postal_code");
         contactImage = getIntent().getStringExtra("image");
         nameTextView = findViewById(R.id.tv_contact_name);
         contactImageView = findViewById(R.id.iv_contact_details);
         contactTextView = findViewById(R.id.tv_phone);
         emailTextView = findViewById(R.id.tv_mail);
         streetTextView = findViewById(R.id.tv_street);
+        postalCodeTextView = findViewById(R.id.tv_postal_code);
         nameTextView.setText(contactName);
         contactTextView.setText(contactNumber);
         emailTextView.setText(contactEmail);
         streetTextView.setText(contactStreet);
+        postalCodeTextView.setText(contactPostalCode);
         callImageButton = findViewById(R.id.ib_call);
         messageImageButton = findViewById(R.id.ib_message);
         emailImageButton = findViewById(R.id.ib_mail);
@@ -66,11 +70,16 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 sms(contactNumber);
             }
         });
-
         emailImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email(contactEmail);
+            }
+        });
+        streetImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map(contactStreet + " " + contactPostalCode);
             }
         });
     }
@@ -97,5 +106,12 @@ public class ContactDetailsActivity extends AppCompatActivity {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", contactEmail, null));
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+    private void map(String address) {
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse("geo:0,0?q=" + address);
+        mapIntent.setData(uri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

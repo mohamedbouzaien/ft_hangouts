@@ -16,5 +16,6 @@
     <string name="search_contact">Chercher</string>
     <string name="email_contact">Email</string>
     <string name="address_contact">Addresse</string>
+    <string name="postal_code_contact">Code Postal</string>
     <string name="image_upload_desc">Uploade une Image</string>
 </resources>

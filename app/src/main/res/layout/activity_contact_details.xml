@@ -7,30 +7,44 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".ContactDetailsActivity">
 
-    <ImageView
-        android:id="@+id/iv_contact_details"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/color_primary"
-        android:padding="50dp"
-        android:src="@mipmap/ic_user" />
-
-    <TextView
-        android:id="@+id/tv_contact_name"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_contact_details"
-        android:background="@color/color_primary"
-        android:padding="8dp"
-        android:text="Name"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:id="@+id/fl_image">
+
+        <ImageView
+            android:id="@+id/iv_contact_details"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/color_primary"
+            android:padding="50dp"
+            android:src="@mipmap/ic_user" />
+
+        <ImageButton
+            android:id="@+id/ib_edit"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/image_upload_desc"
+            android:src="@android:drawable/ic_menu_edit" />
+        <TextView
+            android:id="@+id/tv_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_contact_details"
+            android:background="@color/color_primary"
+            android:padding="8dp"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </FrameLayout>
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_contact_name"
+        android:layout_below="@id/fl_image"
         android:layout_marginStart="4dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="4dp"
@@ -109,16 +123,30 @@ tools:context=".ContactDetailsActivity">
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:id="@+id/tv_street"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/email_contact"
-                    android:textSize="18sp"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_street"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/address_contact"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:id="@+id/tv_postal_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/postal_code_contact"
+                        android:textSize="15sp"/>
+                </LinearLayout>
 
                 <View
                     android:layout_width="0dp"
@@ -133,7 +161,7 @@ tools:context=".ContactDetailsActivity">
                     android:layout_marginStart="8dp"
                     android:src="@mipmap/ic_map_button"
                     android:backgroundTint="@color/color_primary"
-                    android:contentDescription="@string/email_contact" />
+                    android:contentDescription="@string/address_contact" />
 
             </LinearLayout>
         </LinearLayout>
